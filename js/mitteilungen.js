@@ -1,13 +1,13 @@
 var offline = false;
 
-if(localStorage.getItem('mitteilungen_to_send') == undefined ) {
+if(localStorage.getItem('mitteilungen_to_send') == null ) {
     localStorage.setItem('mitteilungen_to_send', '[]')
 }
     
 $('body').on('click', '[data-chat_id]', function() {
     
     var chat_id = $(this).data('chat_id');
-    fingerprint: localStorage.setItem('chat_id', chat_id)
+    fingerprint: localStorage.setItem('chat_id', chat_id);  
     loadSection('mitteilungen_chat', chat_id);
     
 });
@@ -43,8 +43,8 @@ function chat_anzeigen(chat)  {
     var date_old = '';
     
     var html = '<ul>';
-    console.log(chat);
-    
+    console.log(chat);    
+            
     chat.forEach(function(mitteilung){
                 
         if(mitteilung.datum != date_old) {
@@ -54,17 +54,21 @@ function chat_anzeigen(chat)  {
         
         if(mitteilung.absender == localStorage.getItem('benutzername')) {
             if(mitteilung.gelesen == 0) {
-                html += '<div class="mitteilung eigene_mitteilung">';                 
+                html += '<div class="mitteilung eigen">';                 
             } else {
-                html += '<div class="mitteilung eigene_mitteilung gelesen">';       
+                html += '<div class="mitteilung eigen gelesen">';       
             }
                 html += '<div>' + mitteilung.mitteilung + '</div>'; 
                 html += '<div class="time">' + mitteilung.zeit + '</div>';                  
             html += '</div>';
         } else {
-            html += '<div class="mitteilung">'; 
+            html += '<div class="mitteilung empfangen">'; 
                 html += '<div>' + mitteilung.mitteilung + '</div>';       
-                html += '<div class="time">' + mitteilung.name + ', ' + mitteilung.zeit + '</div>';   
+                html += '<div class="time">' ;   
+                if(mitteilung.name != '') {
+                    html += mitteilung.name + ', ';
+                }
+                html += mitteilung.zeit + '</div>';   
             html += '</div>';
         }
         
@@ -110,7 +114,7 @@ function nachricht_senden() {
         }
         offline = true;       
         
-        html += '<div class="mitteilung eigene_mitteilung offline">';       
+        html += '<div class="mitteilung eigen offline">';       
         html += '<div>' + textarea.val() + '</div>'; 
         html += '</div>';
         $('section#mitteilungen_chat div.content').append(html);

@@ -19,10 +19,8 @@
                 <div class="navbar"><img src="img/toolsforschools.png"></div>
                 <div class="content">
                     <form>
-                        <label>Benutzername</label>
-                        <input name="benutzername">
-                        <label>Passwort</label>
-                        <input name="passwort" type="password">
+                        <input name="benutzername" placeholder="Benutzername">
+                        <input name="passwort" type="password" placeholder="Passwort">
                         <button>prüfen</button>
                     </form>
                 </div>
@@ -34,8 +32,8 @@
                     <nav>
                         <ul>
                             <li data-section="mitteilungen">Mitteilungen</li>
-                            <li data-section="abwesenheiten">Abwesenheiten</li>
-                            <li data-section="notizen">Notizen</li>
+                            <!--<li data-section="abwesenheiten">Abwesenheiten</li>
+                            <li data-section="notizen">Notizen</li>-->
                             <li data-section="logout">Logout</li>
                         </ul>
                     </nav>                    
@@ -48,14 +46,12 @@
             </section>
             
             <section id="mitteilungen_chat">
-                <div class="navbar"><span class="back" data-section="mitteilungen"><i class="fas fa-arrow-left"></i></span></div>
+                <div class="navbar"><span class="back" data-section="mitteilungen"><i class="fas fa-arrow-left"></i></span><span id="chatname"></span></div>
                 <div class="content"></div>
                 <div class="neue_mitteilung">
-                    <textarea></textarea>
-                    <button><i class="far fa-paper-plane"></i></button>
+                    <textarea></textarea><button><i class="far fa-paper-plane"></i></button>
                 </div>
             </section>
-            
             <section id="abwesenheiten">                
                 <div class="navbar"><span class="back" data-section="menu"><i class="fas fa-arrow-left"></i></span> Abwesenheiten</div>
             </section>
@@ -67,8 +63,9 @@
             <section id="logout">
                 <div class="navbar"><span class="back" data-section="menu"><i class="fas fa-arrow-left"></i></span> Abmelden</div>
                 <div class="content">
+                    <p>Wollen Sie sich wirklich abmelden?</p>
                     <form>
-                        <button>abmelden</button>
+                        <button>Ja, jetzt abmelden!</button>
                     </form>
                 </div>
             </section>

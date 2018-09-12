@@ -58,6 +58,7 @@ function loadSection(section, id) {
                     fingerprint: localStorage.getItem('fingerprint')
                 }
             }).done(function( data ) {
+                $('#chatname').html(data.chatname);
                 chat_anzeigen(data.chat);
                 switch_section(section);
             });

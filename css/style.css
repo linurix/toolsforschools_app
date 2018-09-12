@@ -11,6 +11,7 @@ html, body {
     height: 100vh;
     background-color: #fcf8e3;
     font-family: sans-serif;
+    color: #555;
 }
 
 
@@ -37,17 +38,26 @@ div.navbar {
     position: fixed;
     top: 0;
     width: 100vw;
+    height:40px;
     z-index: 1000;
     border-bottom: 1px solid #e7e7e7;
     background-color: #f8f8f8;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 div.navbar img {
-    height:30px;
+    height:27px;
 }
 
 div.navbar span {
     color: #e32322;    
+}
+
+div.navbar span#chatname {
+    color: inherit;
 }
 
 ul {
@@ -63,14 +73,52 @@ ul li {
 
 div.content {
     position: absolute;
-    top: 50px;
-    height: calc(100vh - 50px);
+    top: 40px;
+    height: calc(100vh - 40px);
     width: 100vw;
     overflow-x: scroll;
 }
 
+label {
+    display: block;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
+input, button {
+    margin-left: 15px;
+    display: block;
+    border: 1px solid #333;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 6px 12px;
+    background-color: #fff;
+    color: #555;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input {
+    width: calc(100vw - 30px);
+}
+
+button {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+p {
+    padding: 0px 15px 0 15px;
+}
+
+#login .content, #logout .content {
+    margin-top: 10vh;
+}
+
+
 #mitteilungen_chat > div.content {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 85px);
 }
 
 #mitteilungen_chat div.mitteilungsdatum {
@@ -89,57 +137,84 @@ div.content {
 #mitteilungen_chat div.mitteilung {
     position: relative;
     left: 15px;
-    font-size: 10px;
-    background-color: lightblue;
+    font-size: 0.8rem;
+    color: black;
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    background-color: white;
     width: 80vw;
     margin-bottom: 1rem;
-    border:1px solid #333;
     border-radius: 5px;
     padding: 10px;
     box-sizing: border-box;
 }
 
-#mitteilungen_chat div.mitteilung .time {
-    text-align: right;
-    color: red;
+#mitteilungen_chat div.eigen {
+    left: calc(20vw - 15px);
+    background-color: lightgrey;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
 }
 
-#mitteilungen_chat div.eigene_mitteilung {
-    left: calc(20vw - 15px);
-    background-color: lightgrey;
+#mitteilungen_chat div.empfangen {
+    color: #31708f;
+    border-color: #bce8f1;
+    background-color: #d9edf7;
 }
 
 #mitteilungen_chat div.gelesen {
-    background-color: lightgreen;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
 }
+
+#mitteilungen_chat div.offline {
+    color: #333;
+    border-color: #ccc;
+    background-color: #ccc;
+}
+
+#mitteilungen_chat div.mitteilung .time {
+    text-align: right;
+    color: #777;
+}
+
 
 #mitteilungen_chat div.neue_mitteilung {
     position: fixed;
     bottom: 0;
-    background-color: white;
     width: 100%;
+    height: 40px;
+    padding: 5px;
+    color: #333;
+    background-color: #ccc;
 }
 
 #mitteilungen_chat div.neue_mitteilung textarea {
     height: 30px;
-    width: calc(100vw - 50px);
-    margin:0;    
+    width: calc(100vw - 60px);
+    margin: 0;    
     padding: 5px;    
     border:none;
+    border-radius: 4px;
     resize: vertical;
     
 }
 
 #mitteilungen_chat div.neue_mitteilung button {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    height: 30px;
-    width: 30px;
-    padding:0;
-    margin:0;
-    border:none;
+    position: relative;
+    bottom: 8px;
+    font-size: 20px;
+    padding: 10px;
+    margin: 0px;
+    border: none;
     background: none;
+    display: inline-block;
+    color: #555;
+    
+    
 }
 
 
