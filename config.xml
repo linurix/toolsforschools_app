@@ -2,5 +2,6 @@
 <widget id="ch.toolsforschools.app" version="0.1" xmlns="http://www.w3.org/ns/widgets">
     <name>toolsforschools</name>
     <description>Die App erweitert die Website mit für mobile Endgeräte angepassten Funktionen</description>  
+    <plugin name="cordova-plugin-whitelist" source="npm" spec="1.1.0" />
     <access origin="https://*.toolsforschools.ch" />  
 </widget>
