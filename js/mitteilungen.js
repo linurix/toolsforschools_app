@@ -3,6 +3,15 @@ var offline = false;
 if(localStorage.getItem('mitteilungen_to_send') == null ) {
     localStorage.setItem('mitteilungen_to_send', '[]')
 }
+
+if(localStorage.getItem('chat_liste') == null ) {
+    localStorage.setItem('chat_liste', '{}')
+}
+
+if(localStorage.getItem('chats') == null ) {
+    localStorage.setItem('chats', '{}')
+}
+
     
 $('body').on('click', '[data-chat_id]', function() {
     
@@ -19,9 +28,10 @@ $('#mitteilungen_chat div.neue_mitteilung button').click(function() {
 
 function chat_liste(chats) {
     
+    var chat_liste = [];                
+
     var html = '<ul>';
-    console.log(chats);
-    
+        
     chats.forEach(function(chat){
         
         html += '<li data-chat_id="' + chat.chat_id + '">';
@@ -31,19 +41,25 @@ function chat_liste(chats) {
         }
         html += '</li>';
         
+        chat_liste.push({
+            chat_id:chat.chat_id, 
+            chat_name: chat.chat_name, 
+            chat_neue_mitteilungen: chat.chat_neue_mitteilungen
+        });
         
     });
     
     $('section#mitteilungen div.content').html(html);
+    localStorage.setItem('chat_liste', JSON.stringify(chat_liste));
 
 }
 
 function chat_anzeigen(chat)  {
     
     var date_old = '';
+    var chat_offline_content = [];
     
-    var html = '<ul>';
-    console.log(chat);    
+    var html = '<ul>';   
             
     chat.forEach(function(mitteilung){
                 
@@ -72,10 +88,23 @@ function chat_anzeigen(chat)  {
             html += '</div>';
         }
         
+        chat_offline_content.push({
+            datum: mitteilung.datum, 
+            absender: mitteilung.absender, 
+            gelesen: mitteilung.gelesen,
+            mitteilung: mitteilung.mitteilung,
+            zeit: mitteilung.zeit,
+            name: mitteilung.name
+        });
+        
     });
     
     var container = $('section#mitteilungen_chat div.content'); 
     container.html(html).animate({scrollTop: 99999}, 600);
+    
+    var offline_data = JSON.parse(localStorage.getItem('chats'));
+    offline_data[chat[0].chat_id] = chat_offline_content;
+    localStorage.setItem('chats', JSON.stringify(offline_data)) ;
     
 }
 

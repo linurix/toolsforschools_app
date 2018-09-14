@@ -43,6 +43,10 @@ function loadSection(section, id) {
                 }
             }).done(function( data ) {
                 chat_liste(data.chats);
+            }).fail(function (){
+                console.log(JSON.parse(localStorage.getItem('chat_liste')));
+                chat_liste(JSON.parse(localStorage.getItem('chat_liste')));
+            }).always(function(data) {
                 switch_section(section);
             });
             
@@ -60,7 +64,12 @@ function loadSection(section, id) {
             }).done(function( data ) {
                 $('#chatname').html(data.chatname);
                 chat_anzeigen(data.chat);
-                switch_section(section);
+            }).fail(function (){
+                var chat_id = localStorage.getItem('chat_id');
+                var offline_data = JSON.parse(localStorage.getItem('chats'));
+                chat_anzeigen(offline_data[localStorage.getItem('chat_id')]);                
+            }).always(function(){
+                switch_section(section);                
             });
             
         } else {
