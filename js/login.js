@@ -1,49 +1,62 @@
-$('section#login form button').click(function() {
+// Trigger
+$('section#login form button').click(function() {login()});
+$('section#logout form button').click(function() {logout()});
+
+// Functions
+function login() {
     
-    benutzername = $('#login form input[name="benutzername"]').val();
-    passwort = $('#login form input[name="passwort"]').val();
-    passwort = sha256(passwort);
-    
-    localStorage.setItem('benutzername', benutzername);
-    localStorage.setItem('useragent', navigator.userAgent);
-    
-    $('section#login form button').html('wird überprüft')
-    
-    $.ajax({
-        url: server,
-        method: 'post',
-        dataType: 'json',
-        data: {benutzername: benutzername, passwort:passwort, useragent:navigator.userAgent}
-    }).done(function(data) {
-        localStorage.setItem('section', data.section);
-        localStorage.setItem('fingerprint', data.fingerprint);
-        $('section').hide();
-        $('section#' + data.section).show();
-        $('section#login form button').addClass('error').html(data.alert);
-        setTimeout(function(){
-            $('section#login form button').removeClass('error').html('prüfen');
-        }, 3000);
-        console.log('Logindaten werden gespeichert ...')
-        console.log(data.alert)        
-    }).fail(function() {
-        console.log('Logindaten konnten nicht geprüft werden');
+    if(navigator.onLine) {
         
-        alert('Hallo');
-        $('section#login form button')
-            .addClass('error').html('Logindaten konnten nicht geprüft werden')
-            .delay(2000).html('überprüfen').removeClass('error');
-    });
+        console.log("App ist online")
+        
+        benutzername = $('#login form input[name="benutzername"]').val();    
+        passwort = sha256($('#login form input[name="passwort"]').val());
+        
+        localStorage.setItem('benutzername', benutzername);
+        
+        $('section#login form button').html('wird überprüft')
+        
+        $.ajax({            
+            url: server,
+            method: 'post',
+            dataType: 'json',
+            data: {benutzername: benutzername, passwort:passwort, useragent:navigator.userAgent}
+        }).done(function(data) {
+            
+            localStorage.setItem('section', data.section);
+            localStorage.setItem('fingerprint', data.fingerprint);
+            
+            $('section').hide();
+            $('section#' + data.section).show();
+            $('section#login form button').addClass('error').html(data.alert);
+            
+            setTimeout(function(){
+                $('section#login form button').removeClass('error').html('prüfen');
+            }, 3000);            
+                 
+        }).fail(function() {
+            
+            $('section#login form button').addClass('error').html('Logindaten konnten nicht geprüft werden')
+            
+            setTimeout(function(){
+                $('section#login form button').removeClass('error').html('prüfen');
+            }, 3000);
+            
+        });
+        
+    } else {
+        
+        alert('Um die Benutzereingaben zu überprüfen brauchen Sie eine Internetverbindung.');
+        
+    }   
     
     return false;
-    
-});
+}
 
-$('section#logout form button').click(function() {
+function logout() {
     
     localStorage.clear();
     $('section').hide();
     $('section#login').show();
-        
-    return false;
     
-});
+}
