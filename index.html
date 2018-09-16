@@ -32,8 +32,8 @@
                     <nav>
                         <ul>
                             <li data-section="mitteilungen">Mitteilungen</li>
-                            <!--<li data-section="abwesenheiten">Abwesenheiten</li>
-                            <li data-section="notizen">Notizen</li>-->
+                            <li data-section="abwesenheiten">Abwesenheiten</li>
+                            <li data-section="notizen">Notizen</li>
                             <li data-section="logout">Logout</li>
                         </ul>
                     </nav>                    
@@ -54,10 +54,16 @@
             </section>
             <section id="abwesenheiten">                
                 <div class="navbar"><span class="back" data-section="menu"><i class="fas fa-arrow-left"></i></span> Abwesenheiten</div>
+                <div class="content">
+                    <p>Die Abwesenheiten sind in dieser Version noch nicht verfügbar.</p>
+                </div>
             </section>
             
             <section id="notizen">
                 <div class="navbar"><span class="back" data-section="menu"><i class="fas fa-arrow-left"></i></span> Notizen</div>
+                <div class="content">
+                    <p>Die Notizen sind in dieser Version noch nicht verfügbar.</p>
+                </div>
             </section>
             
             <section id="logout">
@@ -73,14 +79,16 @@
         </div>
 
         <script src="js/jquery-3.2.1.min.js"></script>
-        
         <script src="js/sha256.js"></script>
-        <script src="js/login.js"></script>        
-        <script src="js/navigation.js"></script>
+        
+        <script src="js/config.js"></script>
         
         <script src="js/mitteilungen.js"></script>
         <script src="js/notizen.js"></script>
         <script src="js/abwesenheiten.js"></script>
+        
+        <script src="js/login.js"></script>        
+        <script src="js/navigation.js"></script>
 
     </body>
 </html>

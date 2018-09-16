@@ -1,38 +1,64 @@
-var server = "https://g132.toolsforschools.ch/appserver/";
-
 if(localStorage.getItem('section') == undefined 
     || localStorage.getItem('benutzername') == undefined 
     || localStorage.getItem('fingerprint') == undefined) 
 {    
-    localStorage.setItem('section', 'login');
-    $('section#' + localStorage.getItem('section')).show();    
+    show_section('login')  
 } else {
-    loadSection(localStorage.getItem('section'));    
+    load_section(localStorage.getItem('section'));    
 }
+
+if(localStorage.getItem('data_cache') == undefined) {    
+    localStorage.setItem('data_cache', '{}');    
+}
+
 
 $('[data-section]').click(function() {
     var section = $(this).data('section');
-    loadSection(section);
+    load_section(section);
 });
 
 
-function loadSection(section, id) {
-    
-    if(localStorage.getItem('fingerprint') == 'undefined') {                
-        localStorage.setItem('section', 'login');        
-    } else {        
-        if(section == 'mitteilungen') {        
-            load_chat_liste();
-        } else if(section == 'mitteilungen_chat') {
-            load_chat();
-        }
-    }
-    switch_section(section);
-}
+
 
 // Functions
-function switch_section(section) {
+function load_section(section) {
+    
+    if(localStorage.getItem('fingerprint') == 'undefined') {                
+        localStorage.setItem('section', 'login');
+    } else {
+        
+        switch(section) {
+            
+            case 'mitteilungen':
+                load_chat_liste();
+                break;
+            
+            case 'mitteilungen_chat':
+                load_chat();
+                break;                
+            
+            case 'notizen':
+                show_section(section);
+                break;
+            
+            case 'abwesenheiten':
+                show_section(section);
+                break;
+            
+            default:
+                show_section(section);
+                break;
+        }
+        
+    }
+        
+}
+
+
+function show_section(section) {
+    
     localStorage.setItem('section', section);
     $('section').hide();
     $('section#' + section).show();
+
 }

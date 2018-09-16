@@ -1,0 +1,1 @@
+var server = "https://g132.toolsforschools.ch/appserver/";

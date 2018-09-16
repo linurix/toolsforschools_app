@@ -1,6 +1,6 @@
 // Trigger
-$('section#login form button').click(function() {login()});
-$('section#logout form button').click(function() {logout()});
+$('section#login form button').click(login);
+$('section#logout form button').click(logout);
 
 // Functions
 function login() {
@@ -55,8 +55,18 @@ function login() {
 
 function logout() {
     
+    $.ajax({            
+        url: server,
+        method: 'post',
+        dataType: 'json',
+        data: {
+            logout: true, 
+            benutzername: localStorage.getItem('benutzername'), 
+            fingerprint: localStorage.getItem('fingerprint')
+        } 
+    })
+    
     localStorage.clear();
-    $('section').hide();
-    $('section#login').show();
+    show_section('login');
     
 }
