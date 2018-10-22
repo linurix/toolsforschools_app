@@ -77,6 +77,12 @@
             </section>
 
         </div>
+        
+        <script>
+            if(localStorage.getItem('data_cache') == null || localStorage.getItem('data_cache') == undefined ) {
+                localStorage.setItem('data_cache', '{}')
+            }
+        </script>
 
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/sha256.js"></script>

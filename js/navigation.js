@@ -42,7 +42,7 @@ function load_section(section) {
                 break;
             
             case 'abwesenheiten':
-                show_section(section);
+                show_abwesenheiten();
                 break;
             
             default:

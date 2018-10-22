@@ -5,12 +5,6 @@ if(localStorage.getItem('mitteilungen_to_send') == null ) {
     localStorage.setItem('mitteilungen_to_send', '[]')
 }
 
-if(localStorage.getItem('data_cache') == null || localStorage.getItem('data_cache') == undefined ) {
-    localStorage.setItem('data_cache', '{}')
-}
-
-
-
 
 // Trigger
 $('body').on('click', '[data-chat_id]', function() { 
