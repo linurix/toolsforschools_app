@@ -7,15 +7,15 @@ if(localStorage.getItem('section') == undefined
     load_section(localStorage.getItem('section'));    
 }
 
-if(localStorage.getItem('data_cache') == undefined) {    
-    localStorage.setItem('data_cache', '{}');    
+if(localStorage.getItem('data_cache') == null || localStorage.getItem('data_cache') == undefined ) {
+    localStorage.setItem('data_cache', '{}')
 }
-
 
 $('[data-section]').click(function() {
     var section = $(this).data('section');
     load_section(section);
 });
+
 
 
 

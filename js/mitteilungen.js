@@ -1,5 +1,11 @@
 // Init
 var offline = false;
+var data_cache = JSON.parse(localStorage.getItem('data_cache'));
+
+if(data_cache.mitteilungen == null || data_cache.mitteilungen == undefined) {
+    data_cache.mitteilungen = {};
+    localStorage.setItem('data_cache', JSON.stringify(data_cache));
+}
 
 if(localStorage.getItem('mitteilungen_to_send') == null ) {
     localStorage.setItem('mitteilungen_to_send', '[]')
@@ -36,10 +42,23 @@ function load_chat_liste() {
             }
         }).done(function( data ) {
             
-            if(data.update == true) {
+            if(data.update == true) {                
                 
                 var data_cache = JSON.parse(localStorage.getItem('data_cache'));
-                data_cache.mitteilungen = data.chats;
+                
+                // Altes Updaten
+                for (var chat_id in data_cache.mitteilungen) {                    
+                    var chat = data_cache.mitteilungen[chat_id];                    
+                    chat.chat_name = data.chats[chat_id].chat_name;
+                    chat.chat_neue_mitteilungen = data.chats[chat_id].chat_neue_mitteilungen;                     
+                    delete data.chats[chat_id];                        
+                }
+                
+                // Neues Speichern
+                for (var chat_id in data.chats) {
+                    data_cache.mitteilungen[chat_id] = data.chats[chat_id];  
+                }
+                                
                 localStorage.setItem('data_cache', JSON.stringify(data_cache));
                 
             }
@@ -56,16 +75,29 @@ function show_chat_liste() {
     
     var data_cache = JSON.parse(localStorage.getItem('data_cache'));        
     var html = '<ul>';
+    
+    var chats = data_cache.mitteilungen;
+    var sortlist = [];
+    
+    for (var key in chats) {        
+        sortlist.push([chats[key].chat_letzte_mitteilung, key]);
+    }
+    sortlist = sortlist.sort().reverse();
         
-    data_cache.mitteilungen.forEach(function(chat){        
+    for (var item in sortlist) {
+        
+        var key = sortlist[item][1];        
+        var chat = data_cache.mitteilungen[key];
+        
         html += '<li data-chat_id="' + chat.chat_id + '">';
         html += chat.chat_name;
         if(chat.chat_neue_mitteilungen != 0) {
             html += '<span class="badge">' + chat.chat_neue_mitteilungen + '</span>';
         }
-        html += '</li>';        
-    });
-    
+        html += '</li>';   
+        
+    }
+       
     $('section#mitteilungen div.content').html(html);  
     
     show_section('mitteilungen'); 
@@ -91,13 +123,7 @@ function load_chat() {
             if(data.update == true) {  
                               
                 var data_cache = JSON.parse(localStorage.getItem('data_cache'));
-                
-                data_cache.mitteilungen.forEach(function(chat, index) {
-                    if(chat.chat_id == localStorage.getItem('chat_id')) {
-                        data_cache.mitteilungen[index]['mitteilungen'] = data.mitteilungen;
-                    }
-                }); 
-                           
+                data_cache.mitteilungen[localStorage.getItem('chat_id')]['mitteilungen'] = data.mitteilungen;
                 localStorage.setItem('data_cache', JSON.stringify(data_cache));
                 
             }
@@ -115,46 +141,44 @@ function show_chat() {
     var html = '';  
     
     var data_cache = JSON.parse(localStorage.getItem('data_cache'));
-    
-    data_cache.mitteilungen.forEach(function (chat) {
+    var chat = data_cache.mitteilungen[localStorage.getItem('chat_id')];
+    console.log(chat);
+                
+    $('#chatname').html(chat.chat_name);
         
-        if(chat.chat_id == localStorage.getItem('chat_id')) {
+    if(chat.mitteilungen != undefined) {
+        
+        chat.mitteilungen.forEach(function (mitteilung) {
             
-            $('#chatname').html(chat.chat_name);
+            if(mitteilung.datum != date_old) {
+                html += '<div class="mitteilungsdatum"><span>' + mitteilung.datum + '</span></div>'; 
+                date_old = mitteilung.datum;
+            }
             
-            chat.mitteilungen.forEach(function (mitteilung) {
-                
-                if(mitteilung.datum != date_old) {
-                    html += '<div class="mitteilungsdatum"><span>' + mitteilung.datum + '</span></div>'; 
-                    date_old = mitteilung.datum;            
-                    
-                }
-                
-                if(mitteilung.absender == localStorage.getItem('benutzername')) {
-                    if(mitteilung.gelesen == 0) {
-                        html += '<div class="mitteilung eigen">';                 
-                    } else {
-                        html += '<div class="mitteilung eigen gelesen">';       
-                    }
-                    html += '<div>' + mitteilung.mitteilung + '</div>'; 
-                    html += '<div class="time">' + mitteilung.zeit + '</div>';                  
-                    html += '</div>';
+            if(mitteilung.absender == localStorage.getItem('benutzername')) {
+                if(mitteilung.gelesen == 0) {
+                    html += '<div class="mitteilung eigen">';                 
                 } else {
-                    html += '<div class="mitteilung empfangen">'; 
-                    html += '<div>' + mitteilung.mitteilung + '</div>';       
-                    html += '<div class="time">' ;   
-                    if(mitteilung.name != '') {
-                        html += mitteilung.name + ', ';
-                    }
-                    html += mitteilung.zeit + '</div>';   
-                    html += '</div>';
+                    html += '<div class="mitteilung eigen gelesen">';       
                 }
-                
-            });
+                html += '<div>' + mitteilung.mitteilung + '</div>'; 
+                html += '<div class="time">' + mitteilung.zeit + '</div>';                  
+                html += '</div>';
+            } else {
+                html += '<div class="mitteilung empfangen">'; 
+                html += '<div>' + mitteilung.mitteilung + '</div>';       
+                html += '<div class="time">' ;   
+                if(mitteilung.name != '') {
+                    html += mitteilung.name + ', ';
+                }
+                html += mitteilung.zeit + '</div>';   
+                html += '</div>';
+            }
             
-        }
+        });
         
-    });
+    }
+        
     
     
     // Offline Nachrichten

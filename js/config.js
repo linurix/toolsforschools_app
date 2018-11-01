@@ -1,1 +1,2 @@
-var server = "https://g132.toolsforschools.ch/appserver/";
+var server = "https://toolsforschools.ch/appserver/";
+

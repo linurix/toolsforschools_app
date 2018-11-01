@@ -1,5 +1,7 @@
 var data_cache = JSON.parse(localStorage.getItem('data_cache'));
-if(data_cache.abwesenheiten = 'undefined') {
+
+if(data_cache.abwesenheiten == null || data_cache.abwesenheiten == undefined) {
+
     data_cache.abwesenheiten = [];
     localStorage.setItem('data_cache', JSON.stringify(data_cache));
 }
