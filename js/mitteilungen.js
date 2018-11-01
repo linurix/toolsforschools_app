@@ -202,7 +202,7 @@ function show_chat() {
     show_section('mitteilungen_chat');
     
     // nach unten scrollen
-    var scrollTopMax = $('section#mitteilungen_chat div.content').prop('scrollTopMax')
+    var scrollTopMax = $('section#mitteilungen_chat div.content').prop('scrollHeight')-816
     $('section#mitteilungen_chat div.content').animate({scrollTop: scrollTopMax}, 800); 
     
 }
